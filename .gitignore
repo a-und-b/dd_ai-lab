@@ -1,0 +1,77 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# SQLite database
+*.db
+*.sqlite3
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Logs and cache
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.cache/
+
+# Other
+.history/
+.tmp/
+tmp/
+temp/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+*.mo
+*.pot
+*.bak
+*.swp
+*~
+.python-version
