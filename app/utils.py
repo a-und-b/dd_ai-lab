@@ -7,6 +7,7 @@ def create_job_directories(job_id):
     base_path = f"app/static/jobs/{job_id}"
     directories = [
         base_path,
+        f"{base_path}/text",
         f"{base_path}/raw",
         f"{base_path}/controlnet_assets",
         f"{base_path}/ipadapter",
