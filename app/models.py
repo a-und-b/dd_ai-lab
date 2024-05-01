@@ -6,11 +6,6 @@ from hashlib import sha256
 
 Base = declarative_base()
 
-def generate_job_id(nickname):
-    timestamp = int(datetime.utcnow().timestamp())
-    nickname_hash = sha256(nickname.encode()).hexdigest()[:8]  # Kurzer Hash des Nicknames
-    return f"{timestamp}{nickname_hash}"
-
 class Job(Base):
     __tablename__ = 'jobs'
     id = Column(String, primary_key=True, default=lambda context: generate_job_id(context.get_current_parameters()['nickname']))

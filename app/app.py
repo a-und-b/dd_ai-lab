@@ -4,14 +4,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import os
+import hashlib
 from hashlib import sha256
 
 Base = declarative_base()
 
 def generate_job_id(nickname):
     timestamp = int(datetime.utcnow().timestamp())
-    nickname_hash = sha256(nickname.encode()).hexdigest()[:8]
-    return f"{timestamp}{nickname_hash}"
+    timestamp_str = str(timestamp)[-3:]
+    nickname_hash = hashlib.sha256(nickname.encode()).hexdigest()[:3]
+    return f"{timestamp_str}{nickname_hash}"
 
 class Job(Base):
     __tablename__ = 'jobs'
