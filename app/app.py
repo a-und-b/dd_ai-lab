@@ -25,7 +25,14 @@ def home():
 def create_job():
     session = Session()
     nickname = request.form['nickname']
-    new_job = Job(nickname=nickname)
+    character = request.form['character']
+    fandom = request.form['fandom']
+    background = request.form['background']
+    mood = request.form['mood']
+    style = request.form['style']
+
+    new_job = Job(nickname=nickname, character=character, fandom=fandom,
+                  background=background, mood=mood, style=style)
     session.add(new_job)
     session.commit()
 
@@ -41,6 +48,11 @@ def get_jobs():
     jobs_data = [{
         "id": job.id,
         "nickname": job.nickname,
+        "character": job.character,
+        "fandom": job.fandom,
+        "background": job.background,
+        "mood": job.mood,
+        "style": job.style,
         "status": job.status,
         "job_url": job.job_url
     } for job in jobs]

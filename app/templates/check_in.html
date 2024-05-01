@@ -51,7 +51,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const list = document.getElementById('jobList');
         data.forEach(job => {
             const item = document.createElement('li');
-            item.textContent = `${job.nickname} - ${job.status} `;
+            const jobInfo = `
+                <strong>Nickname:</strong> ${job.nickname} <br>
+                <strong>Character:</strong> ${job.character} <br>
+                <strong>Fandom:</strong> ${job.fandom} <br>
+                <strong>Background:</strong> ${job.background} <br>
+                <strong>Mood:</strong> ${job.mood} <br>
+                <strong>Style:</strong> ${job.style} <br>
+                <strong>Status:</strong> ${job.status} <br>
+            `;
+            item.innerHTML = jobInfo;
             const statuses = ['new', 'shooting', 'assets-ready', 'processing', 'output-ready', 'finished'];
             statuses.forEach(status => {
                 const statusBtn = document.createElement('button');
