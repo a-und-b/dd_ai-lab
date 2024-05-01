@@ -3,9 +3,9 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+from .utils import create_job_directories, generate_qr_code
 import os
 import hashlib
-from hashlib import sha256
 
 Base = declarative_base()
 
@@ -36,19 +36,6 @@ Session = sessionmaker(bind=engine)
 
 app = Blueprint('app', __name__)
 
-def create_job_directories(job_id):
-    base_path = f"jobs/{job_id}"
-    directories = [
-        base_path,
-        f"{base_path}/raw",
-        f"{base_path}/controlnet_assets",
-        f"{base_path}/ipadapter",
-        f"{base_path}/masks",
-        f"{base_path}/generated_images"
-    ]
-    for directory in directories:
-        os.makedirs(directory, exist_ok=True)
-
 @app.route('/')
 def home():
     return render_template('check_in.html')
@@ -72,8 +59,10 @@ def create_job():
     session.commit()
 
     create_job_directories(new_job.id)
+    generate_qr_code(new_job.id, new_job.job_url)
 
     return jsonify({"job_id": new_job.id, "job_number": new_job.job_number, "job_url": new_job.job_url}), 201
+
 
 @app.route('/jobs', methods=['GET'])
 def get_jobs():
