@@ -27,6 +27,7 @@ class Job(Base):
     style = Column(String)
     status = Column(String, default='new')
     created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     job_url = Column(String, default=lambda context: f"https://andersundbesser.de/lfg/{context.get_current_parameters()['id']}")
 
 engine = create_engine('sqlite:///cosplay.db')
@@ -88,9 +89,13 @@ def get_jobs():
         "mood": job.mood,
         "style": job.style,
         "status": job.status,
+        "created_at": job.created_at.isoformat(),  # Konvertiere in ISO-Format für JSON
+        "updated_at": job.updated_at.isoformat(),  # Füge updated_at hinzu
         "job_url": job.job_url
     } for job in jobs]
     return jsonify(jobs_data)
+
+
 
 @app.route('/jobs/<job_id>', methods=['PUT'])
 def update_job_status(job_id):
@@ -100,11 +105,13 @@ def update_job_status(job_id):
         new_status = request.json.get('status')
         if new_status in ['new', 'shooting', 'assets-ready', 'processing', 'output-ready', 'finished']:
             job.status = new_status
+            job.updated_at = datetime.utcnow()  # Aktualisiere updated_at
             session.commit()
             return jsonify({"message": "Job status updated to " + new_status}), 200
         else:
             return jsonify({"error": "Invalid status provided"}), 400
     return jsonify({"error": "Job not found"}), 404
+
 
 def create_app():
     app = Flask(__name__)

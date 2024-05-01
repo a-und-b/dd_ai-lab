@@ -60,6 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <strong>Mood:</strong> ${job.mood} <br>
                 <strong>Style:</strong> ${job.style} <br>
                 <strong>Status:</strong> ${job.status} <br>
+                <strong>Created At:</strong> ${new Date(job.created_at).toLocaleString()} <br>
+                <strong>Updated At:</strong> ${new Date(job.updated_at).toLocaleString()} <br>
             `;
             item.innerHTML = jobInfo;
             const statuses = ['new', 'shooting', 'assets-ready', 'processing', 'output-ready', 'finished'];

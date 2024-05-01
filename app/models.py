@@ -18,6 +18,7 @@ class Job(Base):
     style = Column(String)  # Stil, z.B. "realistisch", "Anime/Manga"
     status = Column(String, default='new')  # Der aktuelle Status des Jobs
     created_at = Column(DateTime, default=datetime.utcnow)  # Erstellungszeitpunkt
+    updated_at = Column(DateTime, default=datetime.utcnow)  # Zeitpunkt der letzten Aktualisierung des Jobs
     job_url = Column(String, default=lambda context: f"https://andersundbesser.de/lfg/{context.get_current_parameters()['id']}")  # URL zum Job
 
 engine = create_engine('sqlite:///cosplay.db', echo=True)
