@@ -6,6 +6,21 @@
 <h2>Check-In</h2>
 <form action="/jobs" method="post">
     Nickname: <input type="text" name="nickname" required><br>
+    Charakter: <input type="text" name="character" required><br>
+    Fandom: <input type="text" name="fandom" required><br>
+    Hintergrund: <textarea name="background" required></textarea><br>
+    Stimmung: <select name="mood">
+        <option value="heroisch">Heroisch</option>
+        <option value="verträumt">Verträumt</option>
+        <option value="mysteriös">Mysteriös</option>
+        <option value="fröhlich">Fröhlich</option>
+    </select><br>
+    Stil: <select name="style">
+        <option value="realistisch">Realistisch</option>
+        <option value="anime">Anime/Manga</option>
+        <option value="3d-render">3D-Render</option>
+        <option value="comic">Comic</option>
+    </select><br>
     <button type="submit">Check In</button>
 </form>
 
@@ -24,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-//            alert(data.message);
+            alert(data.message);
             window.location.reload(); // Reload to see the updated status
         })
         .catch(error => console.error('Error updating job status:', error));
