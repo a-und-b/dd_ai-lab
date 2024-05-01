@@ -4,7 +4,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from .utils import create_job_directories, generate_qr_code
-import os
 import hashlib
 
 Base = declarative_base()
@@ -79,8 +78,9 @@ def get_jobs():
         "style": job.style,
         "status": job.status,
         "created_at": job.created_at.isoformat(),  # Konvertiere in ISO-Format für JSON
-        "updated_at": job.updated_at.isoformat(),  # Füge updated_at hinzu
-        "job_url": job.job_url
+        "updated_at": job.updated_at.isoformat() if job.updated_at else None,
+        "job_url": job.job_url,
+        "qr_code_url": f"/static/jobs/{job.id}/qr_code.png"
     } for job in jobs]
     return jsonify(jobs_data)
 

@@ -4,7 +4,7 @@ from io import BytesIO
 
 
 def create_job_directories(job_id):
-    base_path = f"jobs/{job_id}"
+    base_path = f"app/static/jobs/{job_id}"
     directories = [
         base_path,
         f"{base_path}/raw",
@@ -27,5 +27,5 @@ def generate_qr_code(job_id, job_url):
     buffer = BytesIO()
     img.save(buffer, "PNG")
 
-    with open(f"jobs/{job_id}/qr_code.png", "wb") as f:
+    with open(f"app/static/jobs/{job_id}/qr_code.png", "wb") as f:
         f.write(buffer.getvalue())
