@@ -24,6 +24,7 @@ class Job(Base):
     style = Column(String)
     status = Column(String, default='new')
     created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, onupdate=datetime.utcnow)  # Automatisches Update bei Änderungen
     job_url = Column(String, default=lambda context: f"https://andersundbesser.de/lfg/{context.get_current_parameters()['id']}")
 
 engine = create_engine('sqlite:///cosplay.db')
