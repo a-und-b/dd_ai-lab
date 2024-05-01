@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         data.forEach(job => {
             const item = document.createElement('li');
             const jobInfo = `
+                <strong>Job Number:</strong> ${job.job_number} <br>
                 <strong>Nickname:</strong> ${job.nickname} <br>
                 <strong>Character:</strong> ${job.character} <br>
                 <strong>Fandom:</strong> ${job.fandom} <br>
@@ -72,5 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 </script>
 {% endblock %}

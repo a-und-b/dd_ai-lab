@@ -1,6 +1,35 @@
 from flask import Flask, request, jsonify, render_template, Blueprint
-from .models import Job, Session, engine
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from datetime import datetime
 import os
+from hashlib import sha256
+
+Base = declarative_base()
+
+def generate_job_id(nickname):
+    timestamp = int(datetime.utcnow().timestamp())
+    nickname_hash = sha256(nickname.encode()).hexdigest()[:8]
+    return f"{timestamp}{nickname_hash}"
+
+class Job(Base):
+    __tablename__ = 'jobs'
+    id = Column(String, primary_key=True, default=lambda context: generate_job_id(context.get_current_parameters()['nickname']))
+    job_number = Column(Integer, unique=True)
+    nickname = Column(String)
+    character = Column(String)
+    fandom = Column(String)
+    background = Column(Text)
+    mood = Column(String)
+    style = Column(String)
+    status = Column(String, default='new')
+    created_at = Column(DateTime, default=datetime.utcnow)
+    job_url = Column(String, default=lambda context: f"https://andersundbesser.de/lfg/{context.get_current_parameters()['id']}")
+
+engine = create_engine('sqlite:///cosplay.db')
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
 
 app = Blueprint('app', __name__)
 
@@ -24,22 +53,24 @@ def home():
 @app.route('/jobs', methods=['POST'])
 def create_job():
     session = Session()
-    nickname = request.form['nickname']
-    character = request.form['character']
-    fandom = request.form['fandom']
-    background = request.form['background']
-    mood = request.form['mood']
-    style = request.form['style']
+    last_job = session.query(Job).order_by(Job.job_number.desc()).first()
+    next_job_number = (last_job.job_number + 1) if last_job else 1
 
-    new_job = Job(nickname=nickname, character=character, fandom=fandom,
-                  background=background, mood=mood, style=style)
+    new_job = Job(
+        nickname=request.form['nickname'],
+        character=request.form['character'],
+        fandom=request.form['fandom'],
+        background=request.form['background'],
+        mood=request.form['mood'],
+        style=request.form['style'],
+        job_number=next_job_number
+    )
     session.add(new_job)
     session.commit()
 
-    # Erstelle die Ordnerstruktur für den neuen Job
     create_job_directories(new_job.id)
 
-    return jsonify({"job_id": new_job.id, "job_url": new_job.job_url}), 201
+    return jsonify({"job_id": new_job.id, "job_number": new_job.job_number, "job_url": new_job.job_url}), 201
 
 @app.route('/jobs', methods=['GET'])
 def get_jobs():
@@ -47,6 +78,7 @@ def get_jobs():
     jobs = session.query(Job).all()
     jobs_data = [{
         "id": job.id,
+        "job_number": job.job_number,
         "nickname": job.nickname,
         "character": job.character,
         "fandom": job.fandom,
@@ -72,14 +104,7 @@ def update_job_status(job_id):
             return jsonify({"error": "Invalid status provided"}), 400
     return jsonify({"error": "Job not found"}), 404
 
-@app.route('/jobs/<job_id>', methods=['GET'])
-def get_job(job_id):
-    session = Session()
-    job = session.query(Job).filter_by(id=job_id).first()
-    if job:
-        return jsonify({
-            "nickname": job.nickname,
-            "status": job.status,
-            "job_url": job.job_url
-        })
-    return jsonify({"error": "Job not found"}), 404
+def create_app():
+    app = Flask(__name__)
+    app.register_blueprint(app)
+    return app

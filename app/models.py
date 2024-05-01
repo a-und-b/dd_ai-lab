@@ -1,32 +1,30 @@
-import hashlib
-from sqlalchemy import create_engine, Column, String, DateTime, Text
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
+from hashlib import sha256
 
 Base = declarative_base()
 
-
 def generate_job_id(nickname):
     timestamp = int(datetime.utcnow().timestamp())
-    timestamp_str = str(timestamp)[-3:]
-    nickname_hash = hashlib.sha256(nickname.encode()).hexdigest()[:3]
-    return f"{timestamp_str}{nickname_hash}"
+    nickname_hash = sha256(nickname.encode()).hexdigest()[:8]  # Kurzer Hash des Nicknames
+    return f"{timestamp}{nickname_hash}"
 
 class Job(Base):
     __tablename__ = 'jobs'
     id = Column(String, primary_key=True, default=lambda context: generate_job_id(context.get_current_parameters()['nickname']))
+    job_number = Column(Integer, unique=True)  # Fortlaufende Nummer jedes Jobs
     nickname = Column(String)
-    character = Column(String)
-    fandom = Column(String)
-    background = Column(Text)
-    mood = Column(String)
-    style = Column(String)
-    status = Column(String, default='new')
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, onupdate=datetime.utcnow)  # Automatisches Update bei Änderungen
-    job_url = Column(String, default=lambda context: f"https://andersundbesser.de/lfg/{context.get_current_parameters()['id']}")
+    character = Column(String)  # Name des Charakters
+    fandom = Column(String)  # Zugehöriger Fandom, z.B. "Star Trek TNG"
+    background = Column(Text)  # Hintergrundgeschichte oder -szenario
+    mood = Column(String)  # Stimmung, z.B. "heroisch", "verträumt"
+    style = Column(String)  # Stil, z.B. "realistisch", "Anime/Manga"
+    status = Column(String, default='new')  # Der aktuelle Status des Jobs
+    created_at = Column(DateTime, default=datetime.utcnow)  # Erstellungszeitpunkt
+    job_url = Column(String, default=lambda context: f"https://andersundbesser.de/lfg/{context.get_current_parameters()['id']}")  # URL zum Job
 
-engine = create_engine('sqlite:///cosplay.db')
+engine = create_engine('sqlite:///cosplay.db', echo=True)
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
