@@ -75,3 +75,4 @@ coverage.xml
 *.swp
 *~
 .python-version
+/jobs/
