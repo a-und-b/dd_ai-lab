@@ -105,7 +105,8 @@ def update_job_status(job_id):
 
 @app.route('/jobs/<job_id>/images')
 def get_job_images(job_id):
-    job_dir = f"app/static/jobs/{job_id}"
+    folder = request.args.get('folder', '')
+    job_dir = f"app/static/jobs/{job_id}/{folder}"
     image_extensions = ['.jpg', '.jpeg', '.png', '.gif']
     images = []
 
@@ -114,10 +115,11 @@ def get_job_images(job_id):
             if os.path.splitext(file)[1].lower() in image_extensions:
                 images.append({
                     'filename': file,
-                    'url': f"/static/jobs/{job_id}/{file}"
+                    'url': f"/static/jobs/{job_id}/{folder}/{file}"
                 })
 
     return jsonify(images)
+
 
 @app.route('/gallery.html')
 def gallery():

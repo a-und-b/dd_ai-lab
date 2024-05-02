@@ -23,6 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <strong>Updated At:</strong> ${job.updated_at ? new Date(job.updated_at).toLocaleString() : 'N/A'} <br>
                     <img src="${job.qr_code_url}" alt="QR Code" width="100" height="100"> <br>
                     <a href="/gallery.html?job_id=${job.id}">View Gallery</a>
+                    <a href="/gallery.html?job_id=${job.id}&folder=raw">Raw Images</a> |
+                    <a href="/gallery.html?job_id=${job.id}&folder=generated_images">Generated Images</a>
+                    <a href="/gallery.html?job_id=${job.id}&folder=ipadapter">Generated Images</a>
+                    <a href="/gallery.html?job_id=${job.id}&folder=masks">Generated Images</a>
+                    <a href="/gallery.html?job_id=${job.id}&folder=controlnet_assets">Generated Images</a>
                 `;
                 item.innerHTML = jobInfo;
                 const statuses = ['new', 'shooting', 'assets-ready', 'processing', 'output-ready', 'finished'];
