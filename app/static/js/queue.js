@@ -57,8 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     statusFilter.addEventListener('change', refreshQueue);
-
-    setInterval(refreshQueue, 2500);
-
+    const refreshButton = document.getElementById('refreshButton');
+    refreshButton.addEventListener('click', refreshQueue);
     refreshQueue();
 });
