@@ -72,9 +72,18 @@ def create_job():
 
     create_job_directories(new_job.id)
     generate_qr_code(new_job.id, new_job.job_url)
+    write_job_details(new_job)
 
     return jsonify({"job_id": new_job.id, "job_number": new_job.job_number, "job_url": new_job.job_url}), 201
 
+def write_job_details(job):
+    job_dir = f"app/static/jobs/{job.id}/text"
+    with open(os.path.join(job_dir, 'job_details.txt'), 'w') as f:
+        f.write(f"Style: {job.style}\n")
+        f.write(f"Character: {job.character}\n")
+        f.write(f"Fandom: {job.fandom}\n")
+        f.write(f"Mood: {job.mood}\n")
+        f.write(f"Background, setting and scenery : {job.background}\n")
 
 @app.route('/jobs', methods=['GET'])
 def get_jobs():
