@@ -77,3 +77,4 @@ coverage.xml
 .python-version
 /app/static/jobs/
 /app/static/jobs/
+/ftp_credentials.txt

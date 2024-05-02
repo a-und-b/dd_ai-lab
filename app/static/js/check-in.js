@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="/gallery.html?job_id=${job.id}">View Gallery</a>
                     <a href="/gallery.html?job_id=${job.id}&folder=raw">Raw Images</a> |
                     <a href="/gallery.html?job_id=${job.id}&folder=generated_images">Generated Images</a>
-                    <a href="/gallery.html?job_id=${job.id}&folder=ipadapter">Generated Images</a>
-                    <a href="/gallery.html?job_id=${job.id}&folder=masks">Generated Images</a>
-                    <a href="/gallery.html?job_id=${job.id}&folder=controlnet_assets">Generated Images</a>
+                    <a href="/gallery.html?job_id=${job.id}&folder=ipadapter">IPadapter</a>
+                    <a href="/gallery.html?job_id=${job.id}&folder=masks">Masks</a>
+                    <a href="/gallery.html?job_id=${job.id}&folder=controlnet_assets">Controlnet Assets</a>
                 `;
                 item.innerHTML = jobInfo;
                 const statuses = ['new', 'shooting', 'assets-ready', 'processing', 'output-ready', 'finished'];
@@ -98,5 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial job list refresh
     refreshJobList();
+
+    // Function to upload jobs folder to webserver
+    function uploadJob(jobId) {
+        fetch(`/jobs/${jobId}/upload`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => alert(data.message))
+        .catch(error => console.error('Error:', error));
+    }
+
 });
 

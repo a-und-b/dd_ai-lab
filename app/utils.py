@@ -12,14 +12,16 @@ def create_job_directories(job_id):
         f"{base_path}/controlnet_assets",
         f"{base_path}/ipadapter",
         f"{base_path}/masks",
-        f"{base_path}/generated_images"
+        f"{base_path}/generated_images",
+        f"{base_path}/final_images",
+        f"{base_path}/assets"
     ]
     for directory in directories:
         os.makedirs(directory, exist_ok=True)
 
 
 def generate_qr_code(job_id, job_url):
-    qr = qrcode.QRCode(version=None, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+    qr = qrcode.QRCode(version=None, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=50, border=0)
     qr.add_data(job_url)
     qr.make(fit=True)
 
@@ -28,5 +30,5 @@ def generate_qr_code(job_id, job_url):
     buffer = BytesIO()
     img.save(buffer, "PNG")
 
-    with open(f"app/static/jobs/{job_id}/qr_code.png", "wb") as f:
+    with open(f"app/static/jobs/{job_id}/assets/qr_code.png", "wb") as f:
         f.write(buffer.getvalue())

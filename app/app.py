@@ -40,6 +40,14 @@ app = Blueprint('app', __name__)
 def home():
     return render_template('check_in.html')
 
+@app.route('/photography')
+def photography():
+    return render_template('photography.html')
+
+@app.route('/office')
+def office():
+    return render_template('office.html')
+
 @app.route('/jobs', methods=['POST'])
 def create_job():
     session = Session()
@@ -66,8 +74,12 @@ def create_job():
 
 @app.route('/jobs', methods=['GET'])
 def get_jobs():
+    status = request.args.get('status')
     session = Session()
-    jobs = session.query(Job).all()
+    if status:
+        jobs = session.query(Job).filter_by(status=status).all()
+    else:
+        jobs = session.query(Job).all()
     jobs_data = [{
         "id": job.id,
         "job_number": job.job_number,
@@ -81,10 +93,9 @@ def get_jobs():
         "created_at": job.created_at.isoformat(),  # Konvertiere in ISO-Format für JSON
         "updated_at": job.updated_at.isoformat() if job.updated_at else None,
         "job_url": job.job_url,
-        "qr_code_url": f"/static/jobs/{job.id}/qr_code.png"
+        "qr_code_url": f"/static/jobs/{job.id}/assets/qr_code.png"
     } for job in jobs]
     return jsonify(jobs_data)
-
 
 
 @app.route('/jobs/<job_id>', methods=['PUT'])

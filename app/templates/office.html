@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Office{% endblock %}
+
+{% block content %}
+<h2>Office</h2>
+
+<h3>Jobs Ready for Finalization</h3>
+<ul id="processingCompleteJobsList"></ul>
+
+<script src="{{ url_for('static', filename='js/office.js') }}"></script>
+{% endblock %}
