@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 from .utils import create_job_directories, generate_qr_code
 import hashlib
+import os
 
 Base = declarative_base()
 
@@ -101,6 +102,26 @@ def update_job_status(job_id):
             return jsonify({"error": "Invalid status provided"}), 400
     return jsonify({"error": "Job not found"}), 404
 
+
+@app.route('/jobs/<job_id>/images')
+def get_job_images(job_id):
+    job_dir = f"app/static/jobs/{job_id}"
+    image_extensions = ['.jpg', '.jpeg', '.png', '.gif']
+    images = []
+
+    for root, dirs, files in os.walk(job_dir):
+        for file in files:
+            if os.path.splitext(file)[1].lower() in image_extensions:
+                images.append({
+                    'filename': file,
+                    'url': f"/static/jobs/{job_id}/{file}"
+                })
+
+    return jsonify(images)
+
+@app.route('/gallery.html')
+def gallery():
+    return render_template('gallery.html')
 
 def create_app():
     app = Flask(__name__)

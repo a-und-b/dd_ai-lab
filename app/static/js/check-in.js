@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <strong>Created At:</strong> ${new Date(job.created_at).toLocaleString()} <br>
                     <strong>Updated At:</strong> ${job.updated_at ? new Date(job.updated_at).toLocaleString() : 'N/A'} <br>
                     <img src="${job.qr_code_url}" alt="QR Code" width="100" height="100"> <br>
+                    <a href="/gallery.html?job_id=${job.id}">View Gallery</a>
                 `;
                 item.innerHTML = jobInfo;
                 const statuses = ['new', 'shooting', 'assets-ready', 'processing', 'output-ready', 'finished'];
@@ -75,6 +76,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Function to refresh the gallery
+    function refreshGallery(jobId) {
+        fetch(`/jobs/${jobId}/images`)
+        .then(response => response.json())
+        .then(images => {
+            galleryContainer.innerHTML = '';
+            images.forEach(image => {
+                const img = document.createElement('img');
+                img.src = image.url;
+                img.alt = image.filename;
+                galleryContainer.appendChild(img);
+            });
+        });
+    }
+
     // Initial job list refresh
     refreshJobList();
 });
+
