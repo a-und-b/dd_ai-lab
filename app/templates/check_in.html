@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>Check-In</h2>
-<form action="/jobs" method="post">
+<form id="checkInForm">
     Nickname: <input type="text" name="nickname" required><br>
     Charakter: <input type="text" name="character" required><br>
     Fandom: <input type="text" name="fandom" required><br>
@@ -27,55 +27,5 @@
 <h2>Current Jobs</h2>
 <ul id="jobList"></ul>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const updateStatus = (jobId, newStatus) => {
-        fetch(`/jobs/${jobId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ status: newStatus })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data.message);
-            window.location.reload(); // Reload to see the updated status
-        })
-        .catch(error => console.error('Error updating job status:', error));
-    };
-
-    fetch('/jobs')
-    .then(response => response.json())
-    .then(data => {
-        const list = document.getElementById('jobList');
-        data.forEach(job => {
-            const item = document.createElement('li');
-            const jobInfo = `
-                <strong>Job Number:</strong> ${job.job_number} <br>
-                <strong>Nickname:</strong> ${job.nickname} <br>
-                <strong>Character:</strong> ${job.character} <br>
-                <strong>Fandom:</strong> ${job.fandom} <br>
-                <strong>Background:</strong> ${job.background} <br>
-                <strong>Mood:</strong> ${job.mood} <br>
-                <strong>Style:</strong> ${job.style} <br>
-                <strong>Status:</strong> ${job.status} <br>
-                <strong>Created At:</strong> ${new Date(job.created_at).toLocaleString()} <br>
-                <strong>Updated At:</strong> ${job.updated_at ? new Date(job.updated_at).toLocaleString() : 'N/A'} <br>
-                <img src="${job.qr_code_url}" alt="QR Code" width="100" height="100"> <br>
-            `;
-            item.innerHTML = jobInfo;
-            const statuses = ['new', 'shooting', 'assets-ready', 'processing', 'output-ready', 'finished'];
-            statuses.forEach(status => {
-                const statusBtn = document.createElement('button');
-                statusBtn.textContent = status;
-                statusBtn.onclick = () => updateStatus(job.id, status);
-                item.appendChild(statusBtn);
-            });
-            list.appendChild(item);
-        });
-    });
-});
-
-</script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 {% endblock %}
