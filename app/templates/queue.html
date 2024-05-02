@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Queue{% endblock %}
+
+{% block content %}
+<h2>Queue</h2>
+
+<div>
+    <label for="statusFilter">Filter by status:</label>
+    <select id="statusFilter">
+        <option value="">All</option>
+        <option value="new">New</option>
+        <option value="shooting">Shooting</option>
+        <option value="assets-ready">Assets Ready</option>
+        <option value="processing">Processing</option>
+        <option value="processing-complete">Processing Complete</option>
+        <option value="finalizing">Finalizing</option>
+        <option value="output-ready">Output Ready</option>
+        <option value="finished">Finished</option>
+    </select>
+</div>
+
+<table id="queueTable">
+    <thead>
+        <tr>
+            <th data-sort="job_number">Job Number</th>
+            <th data-sort="nickname">Nickname</th>
+            <th data-sort="character">Character</th>
+            <th data-sort="fandom">Fandom</th>
+            <th data-sort="status">Status</th>
+            <th data-sort="created_at">Created At</th>
+            <th data-sort="updated_at">Updated At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script src="{{ url_for('static', filename='js/queue.js') }}"></script>
+{% endblock %}

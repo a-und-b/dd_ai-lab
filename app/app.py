@@ -40,6 +40,10 @@ app = Blueprint('app', __name__)
 def home():
     return render_template('check_in.html')
 
+@app.route('/queue')
+def queue():
+    return render_template('queue.html')
+
 @app.route('/photography')
 def photography():
     return render_template('photography.html')
