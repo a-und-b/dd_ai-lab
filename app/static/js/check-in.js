@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const item = document.createElement('li');
                 const jobInfo = `
                     <strong>Job Number:</strong> ${job.job_number} <br>
+                    <strong>Job ID:</strong> ${job.id} <br>
                     <strong>Nickname:</strong> ${job.nickname} <br>
                     <strong>Character:</strong> ${job.character} <br>
                     <strong>Fandom:</strong> ${job.fandom} <br>
