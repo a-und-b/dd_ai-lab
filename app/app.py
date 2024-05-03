@@ -79,11 +79,12 @@ def create_job():
 def write_job_details(job):
     job_dir = f"app/static/jobs/{job.id}/text"
     with open(os.path.join(job_dir, 'job_details.txt'), 'w') as f:
-        f.write(f"Style: {job.style}\n")
-        f.write(f"Character: {job.character}\n")
-        f.write(f"Fandom: {job.fandom}\n")
-        f.write(f"Mood: {job.mood}\n")
-        f.write(f"Background, setting and scenery : {job.background}\n")
+        f.write(f"{job.id}\n")
+        f.write(f"Style: {job.style} | ")
+        f.write(f"Character: {job.character} | ")
+        f.write(f"Fandom: {job.fandom} | ")
+        f.write(f"Mood: {job.mood} | ")
+        f.write(f"Background, setting and scenery: {job.background}")
 
 @app.route('/jobs', methods=['GET'])
 def get_jobs():
