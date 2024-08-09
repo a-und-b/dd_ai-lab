@@ -78,3 +78,4 @@ coverage.xml
 /app/static/jobs/
 /app/static/jobs/
 /ftp_credentials.txt
+.DS_Store

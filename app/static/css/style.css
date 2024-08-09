@@ -20,19 +20,21 @@ main {
 
 form {
     background: #fff;
-    padding: 20px;
+    padding: 2rem 3rem 2rem 2rem;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-input[type=text], button {
+input[type=text], textarea, button {
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
     width: 100%;
 }
-
+textarea {
+min-height: 30rem;
+}
 button {
     background-color: #5CACEE;
     color: white;

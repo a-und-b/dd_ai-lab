@@ -1,31 +1,28 @@
 {% extends "base.html" %}
-
-{% block title %}Check-In{% endblock %}
-
 {% block content %}
-<h2>Check-In</h2>
 <form id="checkInForm">
-    Nickname: <input type="text" name="nickname" required><br>
-    Charakter: <input type="text" name="character" required><br>
-    Fandom: <input type="text" name="fandom" required><br>
-    Hintergrund: <textarea name="background" required></textarea><br>
-    Stimmung: <select name="mood">
+    Nickname:<br>
+    <input type="text" name="nickname" required><br>
+    Charakter:<br>
+    <input type="text" name="character" required><br>
+    Fandom:<br>
+    <input type="text" name="fandom" required><br>
+    Hintergrund:<br> <textarea name="background" required></textarea><br>
+    Stimmung:<br> <select name="mood">
         <option value="heroisch">Heroisch</option>
         <option value="verträumt">Verträumt</option>
         <option value="mysteriös">Mysteriös</option>
         <option value="fröhlich">Fröhlich</option>
     </select><br>
-    Stil: <select name="style">
+    Stil:<br> <select name="style">
         <option value="realistisch">Realistisch</option>
         <option value="anime">Anime/Manga</option>
         <option value="3d-render">3D-Render</option>
         <option value="comic">Comic</option>
-    </select><br>
+    </select><br><br>
     <button type="submit">Check In</button>
 </form>
-
 <h2>Current Jobs</h2>
 <ul id="jobList"></ul>
-
 <script src="{{ url_for('static', filename='js/check-in.js') }}"></script>
 {% endblock %}
