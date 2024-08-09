@@ -35,15 +35,6 @@ This project is an AI-powered photography booth designed for cosplay events and 
 
 5. Access the application in your web browser at `http://localhost:5000`
 
-## Usage
-
-1. **Check-in**: Cosplayers visit the check-in page and fill out the form with their cosplay details.
-2. **Photography**: Our photographer captures photos of the cosplayers and saves them in the designated job directory.
-3. **AI Processing**: The photos are automatically processed through the ComfyUI workflow based on the cosplayer's preferences.
-4. **Finalization**: Our staff reviews the processed images, makes any necessary adjustments, and marks the job as ready for delivery.
-5. **Gallery**: Cosplayers can view their photos in the online gallery by visiting the unique URL provided during check-in.
-6. **Queue Management**: Our staff can monitor and manage the queue of jobs through the dedicated queue page.
-
 ## Contributing
 
 We welcome contributions to improve and expand the functionality of the Cosplay Photography Booth. If you have any ideas, bug reports, or feature requests, please open an issue or submit a pull request.
